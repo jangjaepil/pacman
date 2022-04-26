@@ -87,8 +87,64 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    from game import Directions
+    
+    
+    s = Directions.SOUTH
+    w = Directions.WEST
+    n = Directions.NORTH
+    e = Directions.EAST
+    
+    
+    print "Start:", problem.getStartState()
+    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+    print "Start's successors:", problem.getSuccessors(problem.getStartState())
+    start = (problem.getStartState())   
+    walls = (problem.walls)
+    print(walls)
+    ways = util.Stack()
+    current_state = list(problem.getStartState())
+    print "Is the start a goal?list", problem.isGoalState([1,1])
+    print "Is the start a goal?tuple", problem.isGoalState((1,1))
+    past_state = [0,0]
+    while problem.isGoalState(tuple(current_state))== False:
+        print(current_state)
+        if walls[current_state[0]-1][current_state[1]]==False and [current_state[0]-1,current_state[1]]!=past_state:
+            past_state = current_state[:]
+            ways.push(w)
+            current_state[0] = current_state[0]-1
+            current_state[1] = current_state[1]
+            print "w"
+        elif walls[current_state[0]][current_state[1]-1]==False and [current_state[0],current_state[1]-1]!=past_state:
+            past_state = current_state[:]
+            ways.push(s)
+            current_state[0] = current_state[0]
+            current_state[1] = current_state[1]-1
+            print "s"
+        elif walls[current_state[0]+1][current_state[1]]==False and [current_state[0]+1,current_state[1]]!=past_state:
+            past_state = current_state[:]
+            ways.push(e)
+            current_state[0] = current_state[0]+1
+            current_state[1] = current_state[1]
+            print "e"
+        elif walls[current_state[0]][current_state[1]+1]==False  and [current_state[0],current_state[1]+1]!=past_state:
+            past_state = current_state[:]
+            ways.push(n)
+            current_state[0] = current_state[0]
+            current_state[1] = current_state[1]+1
+            print "n"
+        else:
+            ways.pop()
+            temp_state = current_state[:]
+            current_state  = past_state[:]
+            past_state = current_state[:]
+    path =ways.list
+    print(path)
+    return path
 
+	    
+
+    
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
