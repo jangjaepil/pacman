@@ -107,27 +107,38 @@ def depthFirstSearch(problem):
     print "Is the start a goal?list", problem.isGoalState([1,1])
     print "Is the start a goal?tuple", problem.isGoalState((1,1))
     past_state = [0,0]
+    past_state2 = [0,0]
+    past_state3 = [0,0]
+
     while problem.isGoalState(tuple(current_state))== False:
         print(current_state)
-        if walls[current_state[0]-1][current_state[1]]==False and [current_state[0]-1,current_state[1]]!=past_state:
-            past_state = current_state[:]
-            ways.push(w)
-            current_state[0] = current_state[0]-1
-            current_state[1] = current_state[1]
-            print "w"
-        elif walls[current_state[0]][current_state[1]-1]==False and [current_state[0],current_state[1]-1]!=past_state:
+        if walls[current_state[0]][current_state[1]-1]==False and [current_state[0],current_state[1]-1]!=past_state and [current_state[0],current_state[1]-1]!=past_state2 and [current_state[0],current_state[1]-1]!=past_state3:
+            past_state3 = past_state2[:]
+            past_state2 = past_state[:]
             past_state = current_state[:]
             ways.push(s)
             current_state[0] = current_state[0]
             current_state[1] = current_state[1]-1
             print "s"
-        elif walls[current_state[0]+1][current_state[1]]==False and [current_state[0]+1,current_state[1]]!=past_state:
+        elif walls[current_state[0]-1][current_state[1]]==False and [current_state[0]-1,current_state[1]]!=past_state and [current_state[0]-1,current_state[1]]!=past_state2 and [current_state[0]-1,current_state[1]]!=past_state3:
+            past_state3 = past_state2[:]
+            past_state2 = past_state[:]
+            past_state = current_state[:]
+            ways.push(w)
+            current_state[0] = current_state[0]-1
+            current_state[1] = current_state[1]
+            print "w"
+        elif walls[current_state[0]+1][current_state[1]]==False and [current_state[0]+1,current_state[1]]!=past_state and [current_state[0]+1,current_state[1]]!=past_state2 and [current_state[0]+1,current_state[1]]!=past_state3:
+            past_state3 = past_state2[:]
+            past_state2 = past_state[:]
             past_state = current_state[:]
             ways.push(e)
             current_state[0] = current_state[0]+1
             current_state[1] = current_state[1]
             print "e"
-        elif walls[current_state[0]][current_state[1]+1]==False  and [current_state[0],current_state[1]+1]!=past_state:
+        elif walls[current_state[0]][current_state[1]+1]==False  and [current_state[0],current_state[1]+1]!=past_state and [current_state[0],current_state[1]+1]!=past_state2 and [current_state[0],current_state[1]+1]!=past_state3:
+            past_state3 = past_state2[:]
+            past_state2 = past_state[:]
             past_state = current_state[:]
             ways.push(n)
             current_state[0] = current_state[0]
@@ -135,9 +146,10 @@ def depthFirstSearch(problem):
             print "n"
         else:
             ways.pop()
-            temp_state = current_state[:]
-            current_state  = past_state[:]
-            past_state = current_state[:]
+            current_state = past_state[:]
+            past_state = past_state2[:]
+            past_state2 = past_state3[:]
+            past_state3 = [0,0]
     path =ways.list
     print(path)
     return path
