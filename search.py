@@ -17,6 +17,7 @@ In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
 
+
 import util
 
 class SearchProblem:
@@ -87,40 +88,45 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    from game import Directions
     
-    
-    s = Directions.SOUTH
-    w = Directions.WEST
-    n = Directions.NORTH
-    e = Directions.EAST
-    
-    
-    print "Start:", problem.getStartState()
+    '''print "Start:", problem.getStartState()
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
-    start_node = problem.getStartSate()
-    current_node = list(start_node)[:]
+    print problem.walls'''
+    
+    start_node = problem.getStartState()
+    current_node = start_node
     path = []
     visited = []
     fringe = util.PriorityQueue()
+    priority = 0
+    fringe.push((path,current_node),priority)
 
-    fringe.push([path,current_node],0)
-
-    while fringe.isEmpty():
+    while not fringe.isEmpty():
         path,current_node = fringe.pop()
+       
         if problem.isGoalState(current_node):
-            visited = visited + current_node
+            
             return path
 
+        
         for fnode,action, stepcost in problem.getSuccessors(current_node):
+            
+            
             if fnode not in visited:
-                fringe.push([fnode,path+action],fringe.count)
+              
+                if problem.isGoalState(fnode):
+                    ''' print(path)'''
+                    return path + [action]
+
+                visited = visited +[fnode]
+                depth_of_node = len(path)
+                fringe.push((path+[action],fnode),-depth_of_node)
    
+    
+    return path 
 
-    return path
-
-	    
+	  
 
     
 def breadthFirstSearch(problem):
