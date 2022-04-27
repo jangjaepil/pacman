@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 
+
 import util
 
 class SearchProblem:
@@ -89,42 +90,23 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     
-    '''print "Start:", problem.getStartState()
-    print "Is the start a goal?", problem.isGoalState(problem.getStartState())
-    print "Start's successors:", problem.getSuccessors(problem.getStartState())
-    print problem.walls'''
+  
+    start = problem.getStartState()
+    fringe = util.Stack()
+    fringe.push((start,[]))
+    visited = [start]
     
-    start_node = problem.getStartState()
-    current_node = start_node
-    path = []
-    visited = []
-    fringe = util.PriorityQueue()
-    priority = 0
-    fringe.push((path,current_node),priority)
 
-    while not fringe.isEmpty():
-        path,current_node = fringe.pop()
-       
-        if problem.isGoalState(current_node):
-            
+    while not  fringe.isEmpty():
+        node, path = fringe.pop()
+        visited = visited + [node]
+        if problem.isGoalState(node):
             return path
 
-        
-        for fnode,action, stepcost in problem.getSuccessors(current_node):
-            
-            
-            if fnode not in visited:
-              
-                if problem.isGoalState(fnode):
-                    ''' print(path)'''
-                    return path + [action]
-
-                visited = visited +[fnode]
-                depth_of_node = len(path)
-                fringe.push((path+[action],fnode),-depth_of_node)
-   
-    
-    return path 
+        for successor,action, stepcost in problem.getSuccessors(node):
+            if not successor in visited:
+                fringe.push((successor,path+[action])) 
+    return [] 
 
 	  
 
@@ -136,7 +118,7 @@ def breadthFirstSearch(problem):
     start_node = problem.getStartState()
     current_node = start_node
     path = []
-    visited = []
+    visited = [start_node]
     fringe = util.Queue()
     priority = 0
     fringe.push((path,current_node))
@@ -154,9 +136,7 @@ def breadthFirstSearch(problem):
             
             if fnode not in visited:
               
-                if problem.isGoalState(fnode):
-                    ''' print(path)'''
-                    return path + [action]
+               
 
                 visited = visited +[fnode]
                 
@@ -167,11 +147,6 @@ def breadthFirstSearch(problem):
        
         
       
-
-       
-
-
-
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
