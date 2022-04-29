@@ -167,11 +167,12 @@ def uniformCostSearch(problem):
             continue
         if problem.isGoalState(node):
             return path
+            
 
         visited = visited + [node]
         for fnode,action, stepcost in problem.getSuccessors(node):
             
-            frontier.update((path+[action],fnode,cost+stepcost),cost+stepcost)
+            frontier.push((path+[action],fnode,cost+stepcost),cost+stepcost)
         
                 
     
