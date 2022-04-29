@@ -523,7 +523,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
 
         
         foodlist = self.food.asList()
-        
+        print(foodlist)
         return state in foodlist
 
 
